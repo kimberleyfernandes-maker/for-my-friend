@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>For You 💛</title>
+
 <style>
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  background: #fff5f7;
-  padding: 50px;
+  background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+  padding: 40px;
+  overflow: hidden;
 }
 
 .container {
@@ -19,20 +21,28 @@ body {
 button {
   padding: 10px 20px;
   border: none;
-  background: #ff7aa2;
-  color: white;
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
-  margin-top: 20px;
+  margin: 10px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.agree {
+  background: #ff6f91;
+  color: white;
+}
+
+.disagree {
+  background: #ccc;
 }
 
 .hidden {
   display: none;
 }
 
-.flowers {
-  font-size: 40px;
-  margin-top: 20px;
+.teddy {
+  font-size: 80px;
   animation: pop 1s ease forwards;
 }
 
@@ -40,6 +50,21 @@ button {
   from {transform: scale(0);}
   to {transform: scale(1);}
 }
+
+/* Flower rain */
+.flower {
+  position: fixed;
+  top: -10px;
+  font-size: 24px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
 </style>
 </head>
 
@@ -47,29 +72,114 @@ button {
 
 <div class="container">
 
-<h2 id="step1">Hey… I made something for you 💛</h2>
-<button onclick="nextStep(1)">Click here</button>
-
-<div id="step2" class="hidden">
-  <h3>Are you taking care of yourself? 🥺</h3>
-  <button onclick="nextStep(2)">Trying my best</button>
+<!-- Step 1 -->
+<div id="step1">
+  <h2>Quick check… are you surviving or thriving today?</h2>
+  <button onclick="chooseMood('surviving')">Surviving 😮‍💨</button>
+  <button onclick="chooseMood('thriving')">Thriving 😌</button>
 </div>
 
+<!-- Step 2 -->
+<div id="step2" class="hidden">
+  <p id="responseText"></p>
+  <button onclick="next(2)">I made something for you 💛</button>
+</div>
+
+<!-- Step 3 -->
 <div id="step3" class="hidden">
-  <div class="flowers">💐🌸🌷🌼</div>
+  <div class="teddy">🧸💐</div>
   <p>
-    I know things have been really hard lately…<br><br>
-    but I just want you to know you’re not alone in this.<br>
-    I’m here for you always 💛
+    I know things haven’t been easy lately…<br><br>
+    and sometimes your own mind can feel like the hardest place to be.<br><br>
+    But you don’t have to fight it alone, okay? 💛<br><br>
+
+    Call me, text me… anything.<br>
+    And like I said before — give me a normal call first 😤<br>
+    because I might be “from the past” and offline sometimes 😂<br><br>
+
+    But I’m always here for you, no matter what 🫶
   </p>
+  <button onclick="startGame()">Continue</button>
+</div>
+
+<!-- Step 4 -->
+<div id="step4" class="hidden">
+  <h3 id="gameText">You have to agree this is better than the maps of heart 😌</h3>
+  <button class="agree" id="agreeBtn" onclick="agree()">Strongly Agree</button>
+  <button class="disagree" id="disagreeBtn" onclick="disagree()">Strongly Disagree</button>
+</div>
+
+<!-- Final -->
+<div id="final" class="hidden">
+  <h2>Yayyyy!! I knew it 😌💛</h2>
 </div>
 
 </div>
 
 <script>
-function nextStep(step) {
-  document.getElementById("step" + step).style.display = "none";
-  document.getElementById("step" + (step + 1)).style.display = "block";
+let stage = 0;
+
+function chooseMood(mood){
+  document.getElementById("step1").style.display="none";
+  document.getElementById("step2").style.display="block";
+
+  if(mood === 'surviving'){
+    document.getElementById("responseText").innerText =
+    "That’s okay… surviving is more than enough right now 🫶";
+  } else {
+    document.getElementById("responseText").innerText =
+    "As you should 😌✨ love that for you";
+  }
+}
+
+function next(step){
+  document.getElementById("step"+step).style.display="none";
+  document.getElementById("step"+(step+1)).style.display="block";
+}
+
+function startGame(){
+  next(3);
+  flowerRain();
+}
+
+function flowerRain(){
+  for(let i=0;i<25;i++){
+    let flower = document.createElement("div");
+    flower.className = "flower";
+    flower.innerText = "🌸";
+    flower.style.left = Math.random()*100 + "vw";
+    flower.style.animationDuration = (Math.random()*3+2)+"s";
+    document.body.appendChild(flower);
+  }
+}
+
+function agree(){
+  document.getElementById("step4").style.display="none";
+  document.getElementById("final").style.display="block";
+}
+
+function disagree(){
+  stage++;
+
+  let text = "";
+  if(stage == 1){
+    text = "Oh come on… we both know how good this is 😌";
+  }
+  else if(stage == 2){
+    text = "Stop lying now 😭 this is actually cute";
+  }
+  else if(stage == 3){
+    text = "Okay now you’re just being stubborn 😂";
+    document.getElementById("disagreeBtn").style.display="none";
+  }
+
+  document.getElementById("gameText").innerText = text;
+
+  let agreeBtn = document.getElementById("agreeBtn");
+  let disagreeBtn = document.getElementById("disagreeBtn");
+
+  agreeBtn.style.transform = "scale(" + (1 + stage*0.3) + ")";
+  disagreeBtn.style.transform = "scale(" + (1 - stage*0.2) + ")";
 }
 </script>
 
