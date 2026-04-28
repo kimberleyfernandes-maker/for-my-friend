@@ -10,8 +10,7 @@ body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-
-  background: linear-gradient(135deg, #ffdce6, #f3e8ff, #fff1e6);
+  background: #ffffff;
 }
 
 /* CONTAINER */
@@ -24,7 +23,7 @@ body {
 /* TEXT */
 h2, h3, p {
   font-size: clamp(18px, 5vw, 24px);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* BUTTONS */
@@ -51,13 +50,13 @@ button {
   display: none;
 }
 
-/* TEDDY IMAGE */
+/* TEDDY */
 .teddy-img {
   width: 90%;
   max-width: 320px;
-  margin: 20px auto;
   display: block;
-  animation: pop 1s ease;
+  margin: 20px auto;
+  animation: pop 0.8s ease;
 }
 
 @keyframes pop {
@@ -94,13 +93,12 @@ button {
 <!-- STEP 2 -->
 <div id="step2" class="hidden">
   <p id="responseText"></p>
-  <button onclick="next(2)">I made something for you 💛</button>
+  <button onclick="goToTeddy()">I made something for you 💛</button>
 </div>
 
-<!-- STEP 3 -->
+<!-- STEP 3 (TEDDY + MESSAGE + FLOWERS) -->
 <div id="step3" class="hidden">
 
-  <!-- 👉 CHANGE ONLY THIS NAME IF NEEDED -->
   <img class="teddy-img" src="teddy.png" alt="teddy">
 
   <p>
@@ -146,26 +144,33 @@ function chooseMood(mood){
     : "As you should 😌✨ love that for you";
 }
 
-function next(step){
-  document.getElementById("step"+step).style.display="none";
-  document.getElementById("step"+(step+1)).style.display="block";
-}
-
-function startGame(){
-  next(3);
+/* 👉 GO TO TEDDY + START FLOWERS */
+function goToTeddy(){
+  document.getElementById("step2").style.display="none";
+  document.getElementById("step3").style.display="block";
   flowerRain();
 }
 
+/* 🌸 FLOWER RAIN */
 function flowerRain(){
-  for(let i=0;i<80;i++){
+  let flowers = ["🌸","🌷","🌼","💮"];
+
+  for(let i=0;i<150;i++){
     let flower = document.createElement("div");
     flower.className = "flower";
-    flower.innerText = "🌸";
+    flower.innerText = flowers[Math.floor(Math.random()*flowers.length)];
+
     flower.style.left = Math.random()*100 + "vw";
     flower.style.animationDuration = (Math.random()*3+3)+"s";
     flower.style.fontSize = (Math.random()*12+16)+"px";
+
     document.body.appendChild(flower);
   }
+}
+
+function startGame(){
+  document.getElementById("step3").style.display="none";
+  document.getElementById("step4").style.display="block";
 }
 
 function agree(){
