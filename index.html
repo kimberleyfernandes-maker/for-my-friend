@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 💛</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #fff5f7;
+  padding: 50px;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #ff7aa2;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.flowers {
+  font-size: 40px;
+  margin-top: 20px;
+  animation: pop 1s ease forwards;
+}
+
+@keyframes pop {
+  from {transform: scale(0);}
+  to {transform: scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2 id="step1">Hey… I made something for you 💛</h2>
+<button onclick="nextStep(1)">Click here</button>
+
+<div id="step2" class="hidden">
+  <h3>Are you taking care of yourself? 🥺</h3>
+  <button onclick="nextStep(2)">Trying my best</button>
+</div>
+
+<div id="step3" class="hidden">
+  <div class="flowers">💐🌸🌷🌼</div>
+  <p>
+    I know things have been really hard lately…<br><br>
+    but I just want you to know you’re not alone in this.<br>
+    I’m here for you always 💛
+  </p>
+</div>
+
+</div>
+
+<script>
+function nextStep(step) {
+  document.getElementById("step" + step).style.display = "none";
+  document.getElementById("step" + (step + 1)).style.display = "block";
+}
+</script>
+
+</body>
+</html>
